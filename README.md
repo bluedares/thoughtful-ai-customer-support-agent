@@ -325,8 +325,8 @@ This project is licensed under the MIT License.
 
 For questions or issues:
 - Open an issue on GitHub
-- Contact: support@thoughtful.ai
+- Check the [documentation](docs/)
 
 ---
 
-Built with ❤️ for Thoughtful AI
+Built with ❤️ as a practice project demonstrating multi-agent AI systems
