@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: thoughtful-ai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ENVIRONMENT=development
+      - LOG_LEVEL=INFO
+      - FASTAPI_HOST=0.0.0.0
+      - FASTAPI_PORT=8000
+    volumes:
+      # Mount ChromaDB for persistence
+      - ./chroma_db:/app/chroma_db
+      # Mount source code for hot reload in development
+      - ./src:/app/src
+      - ./data:/app/data
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health', timeout=5.0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - thoughtful-ai-network
+
+  # Streamlit Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: thoughtful-ai-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://backend:8000
+    volumes:
+      - ./app.py:/app/app.py
+    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - thoughtful-ai-network
+
+networks:
+  thoughtful-ai-network:
+    driver: bridge
+
+volumes:
+  chroma_db:
+    driver: local
