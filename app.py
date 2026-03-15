@@ -17,7 +17,11 @@ st.set_page_config(
 )
 
 # API Configuration
-API_BASE_URL = "http://localhost:8000"
+import os
+API_BASE_URL = os.getenv(
+    "API_BASE_URL", 
+    "https://thoughtful-ai-customer-support-agent-production.up.railway.app"
+)
 
 # Initialize session state
 if "messages" not in st.session_state:
