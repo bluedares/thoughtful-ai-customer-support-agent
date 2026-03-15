@@ -2,7 +2,13 @@
 
 A production-ready AI customer support system built with **LangGraph multi-agent orchestration**, **Claude Sonnet 4.5**, and **comprehensive observability**.
 
-## 🎯 Features
+## � Live Demo
+
+- **Streamlit UI**: https://vibrant-simplicity-production-c37f.up.railway.app/
+- **Backend API**: https://thoughtful-ai-customer-support-agent-production.up.railway.app
+- **API Docs**: https://thoughtful-ai-customer-support-agent-production.up.railway.app/docs
+
+## �🎯 Features
 
 - **Multi-Agent Architecture**: LangGraph orchestrates Router, RAG, and General agents
 - **RAG Pipeline**: ChromaDB vector store for product knowledge retrieval
